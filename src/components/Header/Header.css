@@ -1,0 +1,174 @@
+/* Reset y base */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Estilos del header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 34px 24px;
+  display: flex;
+  align-items: center;
+  color: white;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 1000;
+}
+
+.header .logo,
+.header nav a {
+  color: white;
+}
+
+.header .nav a:hover {
+  color: #1e74ff;
+  transition: color 0.3s ease;
+}
+
+.header.scrolled {
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #ccc;
+}
+
+.header.scrolled .logo,
+.header.scrolled .icons,
+.header.scrolled nav a {
+  color: black;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav {
+  display: flex;
+  gap: 16px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  font-weight: 500;
+  font-weight: bold;
+}
+
+.icons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.icon.cart,
+.icon.user {
+  padding: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.close-btn,
+.hamburger {
+  display: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Responsive: móvil */
+@media (max-width: 1024px) {
+  .nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100px;
+    background-color: white;
+    padding: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .header {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .nav.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 105px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    z-index: 999;
+    gap: 24px;
+  }
+
+  .nav a {
+    font-size: 24px;
+    color: white !important;
+  }
+
+  .nav a:hover {
+    color: #1e74ff !important;
+    transition: color 0.3s ease !important;
+  }
+
+  .icon.user {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+    margin-right: 40px;
+  }
+
+  .close-btn {
+    display: block;
+    margin-right: 40px;
+  }
+
+  .logo {
+    color: black;
+  }
+
+}
+
+.header-inner {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Desactiva el scroll vertical cuando se abre el menú */
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.header.solid {
+  background-color: white !important;
+  color: black;
+  border-bottom: 1px solid #ccc;
+}
+
+.header.solid a {
+  color: black;
+}
+
+.header.solid .logo {
+  color: black;
+}
+
+.no-image-page main {
+  margin-top: 100px;
+}
