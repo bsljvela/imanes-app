@@ -30,6 +30,8 @@
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .newsletter-input {
@@ -37,21 +39,42 @@
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  min-width: 280px;
+  height: 48px;
+  min-width: 240px;
+  flex: 1;
+  box-sizing: border-box;
 }
 
 .newsletter-button {
   padding: 12px 24px;
   font-size: 16px;
   background-color: #2563eb;
-  /* azul moderno */
   color: white;
   border: none;
   border-radius: 4px;
+  height: 48px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
 .newsletter-button:hover {
   background-color: #1d4ed8;
+}
+
+@media (min-width: 768px) {
+  .newsletter-form {
+    flex-wrap: nowrap;
+    flex-direction: row;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .newsletter-button {
+    width: auto;
+    white-space: nowrap;
+  }
 }

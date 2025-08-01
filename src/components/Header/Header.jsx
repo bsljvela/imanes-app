@@ -10,7 +10,7 @@ function Header() {
   const location = useLocation();
 
   // Define qué rutas deben usar fondo sólido desde el inicio, para hacer la transparencia en el Header
-  const transparentBackgroundRoutes = ['/contact']; // puedes ajustar las rutas
+  const transparentBackgroundRoutes = ['/products']; // puedes ajustar las rutas
   const isTransparent = transparentBackgroundRoutes.includes(location.pathname);
 
   useEffect(() => {
@@ -55,7 +55,8 @@ function Header() {
 
         <div className="icons">
           <ShoppingCart className="icon cart" />
-          <User className="icon user" />
+          <Link to="/account/login"><User className="icon user" /></Link>
+
 
           {menuOpen ? (
             <X className="close-btn" onClick={() => setMenuOpen(!menuOpen)} />

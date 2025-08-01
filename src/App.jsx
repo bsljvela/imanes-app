@@ -12,11 +12,6 @@ function App() {
       <Header />
 
       <main>
-        {/* <img
-          src="/public/image1.jpeg"
-          alt="Background"
-          style={{ width: '100%', height: '150vh', objectFit: 'cover' }}
-        /> */}
         <AppRoutes />
       </main>
 
