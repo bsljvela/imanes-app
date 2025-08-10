@@ -1,0 +1,467 @@
+/* ===== Overlay y layout general ===== */
+.pc-wrapper {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  /* IZQ: galería | DER: panel */
+  gap: 0;
+  z-index: 2000;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* ===== Panel (derecha en desktop / arriba en móvil) ===== */
+.pc-panel {
+  height: 100vh;
+  overflow: auto;
+  border-left: 1px solid #eee;
+  padding: 16px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #fff;
+}
+
+.pc-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pc-panel h2 {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.pc-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #f3f4f6;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.pc-close:hover {
+  background: #e5e7eb;
+}
+
+.small {
+  font-size: 13px;
+}
+
+.pc-muted {
+  color: #6b7280;
+}
+
+.pc-tip {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  align-items: start;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.pc-tip-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.pc-tip-icon.grid {
+  background:
+    linear-gradient(#ef4444 0 0) 0 0/6px 6px,
+    linear-gradient(#ef4444 0 0) 11px 0/6px 6px,
+    linear-gradient(#ef4444 0 0) 22px 0/6px 6px,
+    linear-gradient(#ef4444 0 0) 0 11px/6px 6px,
+    linear-gradient(#ef4444 0 0) 11px 11px/6px 6px,
+    linear-gradient(#ef4444 0 0) 22px 11px/6px 6px,
+    linear-gradient(#ef4444 0 0) 0 22px/6px 6px,
+    linear-gradient(#ef4444 0 0) 11px 22px/6px 6px,
+    linear-gradient(#ef4444 0 0) 22px 22px/6px 6px;
+  background-repeat: no-repeat;
+  background-color: #fee2e2;
+}
+
+.pc-tip-icon.bleed {
+  border: 2px dashed #ef4444;
+  background-color: #fee2e2;
+}
+
+.pc-tip-text {
+  font-size: 13px;
+  color: #374151;
+}
+
+.pc-count {
+  color: #374151;
+}
+
+.pc-add-to-cart {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 3000;
+  background: #3B82F6;
+  color: #fff;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  /* estilo pill */
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease-in-out;
+}
+
+.pc-add-to-cart:hover {
+  background: #2563EB;
+}
+
+.pc-total {
+  color: #111;
+}
+
+/* ===== Galería izquierda (gaps/padding constantes) ===== */
+:root {
+  --pc-gap-col: 12px;
+  --pc-gap-row: 12px;
+  --pc-cell-radius: 14px;
+  --pc-cell-bg: #f3f4f6;
+  --pc-cell-border: #e5e7eb;
+  --pc-cell-size: 288px;
+  --pc-safe-pad: 5%;
+}
+
+.pc-grid {
+  overflow: auto;
+  padding-top: 0;
+  padding-bottom: 50px;
+  display: grid;
+  grid-template-columns: repeat(3, var(--pc-cell-size));
+  grid-auto-rows: var(--pc-cell-size);
+  column-gap: var(--pc-gap-col);
+  row-gap: var(--pc-gap-row);
+  justify-content: center;
+
+}
+
+.pc-cell {
+  position: relative;
+  width: var(--pc-cell-size);
+  height: var(--pc-cell-size);
+  padding: var(--pc-safe-pad);
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--pc-cell-border);
+  border-radius: var(--pc-cell-radius);
+  overflow: hidden;
+  background: var(--pc-cell-bg);
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
+}
+
+.pc-cell img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+/* Guía punteada 1:1 (área imprimible) */
+/* .pc-cell::after {
+  content: '';
+  position: absolute;
+  inset: 5%;
+  border: 2px dotted rgba(255, 255, 255, .95);
+  border-radius: 14px;
+  pointer-events: none;
+} */
+
+.pc-missing {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.pc-footer-bar {
+  position: fixed;
+  height: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3000;
+  background: rgba(255, 255, 255, .95);
+  backdrop-filter: saturate(180%) blur(8px);
+  border-top: 1px solid #eee;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  display: none;
+  /* visible en <=1200px */
+}
+
+.pc-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pc-footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pc-footer-title {
+  font-weight: 700;
+}
+
+.pc-footer-sub {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Cuando hay footer, la galería deja espacio abajo */
+.pc-grid--with-footer {
+  padding-bottom: 120px !important;
+}
+
+/* Overlay del editor de recorte */
+.pc-editor-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  background: rgba(0, 0, 0, .5);
+  display: grid;
+  place-items: center;
+}
+
+.pc-editor {
+  width: min(900px, 92vw);
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
+  display: grid;
+  grid-template-rows: 500px auto;
+}
+
+.pc-editor-crop {
+  position: relative;
+  background: #111;
+}
+
+.pc-editor-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+}
+
+.pc-editor-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.pc-hole {
+  position: absolute;
+  border-radius: 14px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, .35);
+  opacity: 0;
+  transition: opacity .2s ease;
+  pointer-events: none;
+}
+
+.pc-cell:hover .pc-hole {
+  opacity: 1;
+}
+
+/* Botón base */
+.pc-btn {
+  background-color: #f5f5f5;
+  /* gris claro para botones neutros */
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.pc-btn:hover {
+  background-color: #e9e9e9;
+}
+
+/* Botón primario (Guardar recorte, Añadir al carrito, etc.) */
+.pc-btn.primary {
+  background-color: #007bff;
+  /* Azul principal */
+  border-color: #007bff;
+  color: white;
+}
+
+.pc-btn.primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+/* Botón de acción secundaria (Restaurar original) */
+.pc-btn.secondary {
+  background-color: #6c757d;
+  /* Gris oscuro */
+  border-color: #6c757d;
+  color: white;
+}
+
+.pc-btn.secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+/* Botón de cancelar (rojo) */
+.pc-btn.danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+.pc-btn.danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Ajuste para que se vean bien juntos */
+.pc-editor-buttons .pc-btn {
+  min-width: 110px;
+  text-align: center;
+}
+
+/* Slider Zoom */
+.pc-zoom {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  margin: 0;
+  padding: 0 8px;
+  /* ⬅️ compensa ambos extremos */
+}
+
+/* WebKit (Chrome/Edge/Safari) */
+.pc-zoom::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  /* sin márgenes aquí */
+}
+
+.pc-zoom::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  /* ⬅️ define el pulgar */
+  height: 16px;
+  border-radius: 50%;
+  background: #3B82F6;
+  border: none;
+  cursor: pointer;
+  margin-top: -6px;
+  /* centra verticalmente sobre el track */
+}
+
+/* Firefox */
+.pc-zoom::-moz-range-track {
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 999px;
+}
+
+.pc-zoom::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  background: #3B82F6;
+  cursor: pointer;
+}
+
+.pc-zoom::-moz-range-progress {
+  height: 4px;
+  background: #3B82F6;
+  border-radius: 999px;
+}
+
+/* ===== Responsive ===== */
+/* 2 por fila, mismo gap/padding */
+/* <= 1200px: panel arriba + 2 columnas fijas */
+@media (max-width: 1200px) {
+  .pc-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .pc-panel {
+    order: -1;
+    height: 500px;
+    border-left: none;
+    border-bottom: 1px solid #eee;
+    width: 95%;
+    padding: 10px 24px;
+  }
+
+  .pc-grid {
+    height: calc(100vh - 280px);
+    padding-top: 20px;
+    padding-bottom: 200px;
+    grid-template-columns: repeat(2, var(--pc-cell-size));
+    grid-auto-rows: var(--pc-cell-size);
+    justify-content: center;
+    row-gap: var(--pc-gap-row);
+  }
+
+  .pc-footer-bar {
+    display: block;
+  }
+
+  .pc-fab {
+    display: none;
+  }
+}
+
+/* Móvil: panel arriba, 1 por fila; mantiene gap y scroll interno */
+@media (max-width: 900px) {
+  .pc-grid {
+    height: calc(100vh - 320px);
+    padding-top: 20px;
+    padding-bottom: 200px;
+    grid-template-columns: var(--pc-cell-size);
+    grid-auto-rows: var(--pc-cell-size);
+    justify-content: center;
+  }
+
+  .pc-panel {
+    width: 92%;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    padding: 10px 24px;
+  }
+}

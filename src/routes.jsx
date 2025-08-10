@@ -16,6 +16,7 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 import Home from './pages/Home/Home'
 import MagnetOrder from './pages/MagnetOrder/MagnetOrder';
 import SelectPhotos from './pages/SelectPhotos/SelectPhotos';
+import PreviewCheckout from './pages/PreviewCheckout/PreviewCheckout';
 
 const AppRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const AppRoutes = () => {
 
       <Route path="/order" element={<MagnetOrder />} />
       <Route path="/select-photos" element={<SelectPhotos />} />
+      <Route path="/checkout-preview" element={<PreviewCheckout />} />
 
       <Route path="/account/login" element={<Login />} />
       <Route path="/account/register" element={<Register />} />
