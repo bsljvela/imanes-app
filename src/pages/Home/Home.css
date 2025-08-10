@@ -1,0 +1,96 @@
+.hero-section {
+  background-image: url('/public/portada.jpeg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 50px;
+  position: relative;
+  color: white;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* background-image: url('/public/portada.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* animation: fadeZoom 2s ease-out forwards; */
+  /* animation: fadeZoom 3s ease-out infinite; */
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  animation: fadeInUp 3s ease-out 0.3s both;
+}
+
+.hero-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  margin-bottom: 32px;
+  color: #f1f1f1;
+}
+
+.hero-button {
+  background-color: white;
+  color: #3B82F6;
+  padding: 14px 28px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.hero-button:hover {
+  background-color: #1d4ed8;
+  color: white;
+}
+
+.arrow {
+  margin-left: 10px;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeZoom {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.01);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

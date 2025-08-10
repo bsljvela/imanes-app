@@ -1,0 +1,359 @@
+/* ===== Layout general ===== */
+.sp-wrapper {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 220px 1fr 500px;
+  gap: 0;
+  padding: 10px;
+
+  height: 100vh;
+  max-height: 100vh;
+  z-index: 9999;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* ===== Sidebar ===== */
+.sp-sidebar {
+  border-right: 1px solid #eee;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #fafafa;
+}
+
+.sp-side-item {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.sp-side-item:hover {
+  background: #f2f2f2;
+}
+
+.sp-side-item.active {
+  color: #111;
+  font-weight: 600;
+}
+
+/* ===== Main (zona de drop fija) ===== */
+.sp-main {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  /* arriba */
+  justify-content: center;
+  /* centrado horizontal */
+  padding-top: 150px;
+  background: #fff;
+}
+
+.sp-dropzone {
+  text-align: center;
+}
+
+.sp-dropzone h2 {
+  margin: 8px 0 4px;
+  font-size: 22px;
+}
+
+.sp-dropzone.highlight {
+  border: 2px dashed #3B82F6;
+  background-color: rgba(59, 130, 246, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+
+.sp-muted {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ===== Botones ===== */
+.sp-btn {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #111;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.sp-btn:hover {
+  background: #f8fafc;
+}
+
+.sp-btn.primary {
+  background: #3B82F6;
+  color: #fff;
+  border-color: #3B82F6;
+}
+
+.sp-btn.primary:hover {
+  background: #2563EB;
+  border-color: #2563EB;
+}
+
+.sp-btn.ghost {
+  background: transparent;
+}
+
+.sp-btn.tiny {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.sp-btn.wide {
+  width: 100%;
+}
+
+/* ===== Panel derecho (altura fija; scroll interno) ===== */
+.sp-preview {
+  border-left: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 12px;
+
+  max-height: 100vh;
+  box-sizing: border-box;
+}
+
+.sp-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sp-icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #f3f4f6;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.sp-icon-btn:hover {
+  background: #e5e7eb;
+}
+
+/* ===== Thumbs: wrapper con scroll + grid ===== */
+:root {
+  --thumb-gap-col: 12px;
+  /* separación horizontal */
+  --thumb-gap-row: 4px;
+  /* separación vertical compacta */
+  --thumb-radius: 8px;
+  --thumb-bg: #f3f4f6;
+}
+
+/* Contenedor que NO cambia de alto y tiene su propio scroll */
+.sp-thumbs-wrapper {
+  margin-top: 10px;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 4px;
+  scrollbar-gutter: stable both-edges;
+  /* evita “saltos” por la barra */
+}
+
+/* Grid de miniaturas: 3 columnas por defecto */
+.sp-thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: var(--thumb-gap-col);
+  row-gap: var(--thumb-gap-row);
+}
+
+/* Celda cuadrada */
+.sp-thumb {
+  position: relative;
+  border: 1px solid #eee;
+  border-radius: var(--thumb-radius);
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--thumb-bg);
+  box-sizing: border-box;
+}
+
+/* Imagen */
+.sp-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Quitar (flotante, no ocupa espacio) */
+.sp-thumb-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  border: none;
+  background: rgba(0, 0, 0, .6);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+/* Acciones en overlay (no empujan altura) */
+.sp-thumb-actions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 6px;
+  display: none;
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(0, 0, 0, .35), rgba(0, 0, 0, 0));
+}
+
+.sp-thumb:hover .sp-thumb-actions {
+  display: flex;
+}
+
+.sp-footer {
+  margin-top: 12px;
+}
+
+.sp-counter {
+  margin: 10px 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ===== Modal ===== */
+.sp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .3);
+  display: grid;
+  place-items: center;
+  z-index: 10000;
+}
+
+.sp-modal {
+  background: #fff;
+  width: min(420px, 92vw);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .2);
+}
+
+.sp-modal h3 {
+  margin: 0 0 6px;
+}
+
+.sp-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1100px) {
+  .sp-wrapper {
+    grid-template-columns: 200px 1fr 320px;
+  }
+}
+
+@media (max-width: 900px) {
+
+  /* Cambiamos de grid a flex-column para controlar alturas fácilmente */
+  .sp-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .sp-sidebar {
+    flex: 0 0 auto;
+    flex-direction: row;
+    gap: 8px;
+    padding: 12px 12px 16px !important;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    overflow-y: hidden;
+  }
+
+  .sp-main {
+    /* que el contenedor realmente empuje el contenido hacia arriba */
+    padding-top: 3px !important;
+    min-height: 50px !important;
+  }
+
+  /* Asegura que el contenido NO esté fijado ni tenga desplazamientos */
+  .sp-dropzone {
+    margin-bottom: 100px !important;
+    align-self: center;
+  }
+
+  .sp-dropzone h2 {
+    display: none;
+  }
+
+  .sp-preview {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    border-left: none;
+    border-top: 1px solid #eee;
+    max-height: none;
+    min-height: 0;
+  }
+
+  /* Wrapper de miniaturas con scroll interno real */
+  .sp-thumbs-wrapper {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 40px;
+  }
+
+  /* Grid de miniaturas en móvil: 2 por fila (o 1 en muy chico) */
+  .sp-thumbs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sp-thumb-actions {
+    display: flex !important;
+    /* siempre visible */
+    justify-content: flex-end;
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, .35),
+        rgba(0, 0, 0, 0));
+  }
+}
+
+@media (max-width: 640px) {
+  .sp-thumbs {
+    grid-template-columns: 1fr;
+  }
+
+  /* 1 por fila en móvil */
+}

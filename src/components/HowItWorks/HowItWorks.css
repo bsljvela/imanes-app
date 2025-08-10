@@ -1,0 +1,97 @@
+.hiw-section {
+  max-width: 1200px;
+  margin: 10px auto;
+  padding: 0 24px;
+  color: #111;
+}
+
+.hiw-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 36px;
+}
+
+/* Centrado en desktop */
+.hiw-grid {
+  position: relative;
+  display: grid;
+  /* 3 columnas de ancho fijo (ajústalo a tu gusto) */
+  grid-template-columns: repeat(3, 320px);
+  gap: 28px;
+
+  /* Clave para centrar el bloque completo */
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Opcional: evita que el contenido se estire de más */
+.hiw-item {
+  position: relative;
+  padding: 0 20px;
+  max-width: 320px;
+}
+
+
+.hiw-icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #fda4af1a;
+  /* rosado muy suave */
+  color: #ef4444;
+  /* rojo moderno */
+  margin-bottom: 14px;
+}
+
+.hiw-step-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 8px 0 10px;
+}
+
+.hiw-step-text {
+  color: #4b5563;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* Separador vertical entre columnas (sólo desktop) */
+.hiw-separator {
+  position: absolute;
+  top: 4px;
+  right: -14px;
+  height: 80%;
+  width: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* --------- Responsivo --------- */
+@media (max-width: 900px) {
+  .hiw-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .hiw-item {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    max-width: none;
+  }
+
+  .hiw-item:last-child {
+    border-bottom: none;
+  }
+
+  .hiw-separator {
+    display: none;
+    /* sin separador vertical en mobile */
+  }
+
+  .hiw-title {
+    font-size: 28px;
+  }
+}

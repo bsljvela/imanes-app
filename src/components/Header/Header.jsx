@@ -10,7 +10,7 @@ function Header() {
   const location = useLocation();
 
   // Define qué rutas deben usar fondo sólido desde el inicio, para hacer la transparencia en el Header
-  const transparentBackgroundRoutes = ['/products']; // puedes ajustar las rutas
+  const transparentBackgroundRoutes = ['/home', '/']; // puedes ajustar las rutas
   const isTransparent = transparentBackgroundRoutes.includes(location.pathname);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ function Header() {
         <nav className={`nav ${menuOpen ? 'open' : ''}`}>
           <Link to="/products">Productos</Link>
           <Link to="/reviews">Opiniones</Link>
-          <Link to="/shipping">Envíos</Link>
+          {/* <Link to="/shipping">Envíos</Link> */}
           <Link to="/wholesale">Mayoreo</Link>
           <Link to="/about">Nosotros</Link>
           <Link to="/contact">Contacto</Link>
@@ -54,7 +54,7 @@ function Header() {
         </nav>
 
         <div className="icons">
-          <ShoppingCart className="icon cart" />
+          <Link to="/cart"><ShoppingCart className="icon cart" /></Link>
           <Link to="/account/login"><User className="icon user" /></Link>
 
 

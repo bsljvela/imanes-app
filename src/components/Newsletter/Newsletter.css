@@ -30,7 +30,7 @@
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -40,7 +40,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   height: 48px;
-  min-width: 240px;
+  min-width: 280px;
   flex: 1;
   box-sizing: border-box;
 }

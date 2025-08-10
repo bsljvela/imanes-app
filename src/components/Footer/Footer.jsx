@@ -16,11 +16,10 @@ function Footer() {
             <a href="#">Imanes</a>
             <a href="#">Opiniones</a>
             <a href="#">Mayoristas</a>
-            <a href="#">Plantillas</a>
           </div>
           <div className="footer-col">
             <h4>NOSOTROS</h4>
-            <a href="#">Envíos</a>
+            {/* <a href="#">Envíos</a> */}
             <a href="#">Acerca</a>
             <a href="#">Contacto</a>
             <a href="#">Regalos</a>
@@ -32,7 +31,7 @@ function Footer() {
           </div>
           <div className="footer-col">
             <h4>SOBRE PRINTED</h4>
-            <p>Imprimimos tus recuerdos desde 2014.<br />Con base en San Luis Río Colorado, México.</p>
+            <p>Imprimimos tus recuerdos desde 2023.<br />Con base en San Luis Río Colorado, México.</p>
             <p>contacto@printed.com</p>
           </div>
         </div>
