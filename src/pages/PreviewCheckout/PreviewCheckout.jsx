@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import localforage from 'localforage';
 import Cropper from 'react-easy-crop';
 import './PreviewCheckout.css';
+import { printMagnetsPdf } from '../../utils/printMagnetsPdf';
 
 const LS_KEY = 'magnetOrder';
 
@@ -55,6 +56,31 @@ async function getCroppedBlob(imageSrc, cropPixels, mime = 'image/jpeg', quality
   });
 }
 
+// helpers locales para convertir a DataURL
+async function blobToDataURL(blob) {
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload = () => res(fr.result);
+    fr.onerror = rej;
+    fr.readAsDataURL(blob);
+  });
+}
+
+async function getItemDataURLFromStores(item) {
+  // 1) IndexedDB (storeKey)
+  if (item.storeKey) {
+    const blob = await localforage.getItem(item.storeKey);
+    if (blob) return await blobToDataURL(blob);
+  }
+  // 2) Fallback: desde la url actual (blob: o remota)
+  if (item.url) {
+    const resp = await fetch(item.url);
+    const blob = await resp.blob();
+    return await blobToDataURL(blob);
+  }
+  return null;
+}
+
 export default function PreviewCheckout() {
   const navigate = useNavigate();
   const [required, setRequired] = useState(0);
@@ -71,6 +97,12 @@ export default function PreviewCheckout() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [croppedAreaPct, setCroppedAreaPct] = useState(null); // porcentajes
   const [initialAreaPct, setInitialAreaPct] = useState(null); // para initialCroppedAreaPercentages
+
+  const [couponOpen, setCouponOpen] = useState(false);
+  const [couponInput, setCouponInput] = useState('');
+  const [coupon, setCoupon] = useState(null);
+  const [couponError, setCouponError] = useState('');
+
 
   // Bloquear scroll del body en esta pantalla
   useEffect(() => {
@@ -268,10 +300,81 @@ export default function PreviewCheckout() {
     } catch { }
   }
 
-  const handleAddToCart = () => {
-    alert(`Añadidas ${selectedCount}/${required}. Total: $${price.toFixed(2)}`);
+  const handlePay = () => {
+    alert(`Añadidas ${selectedCount}/${required}. Total: $${total.toFixed(2)}`);
     // navigate('/checkout');
   };
+
+  async function handleDownloadPdf() {
+    const photoUrls = items.map(it => it?.url).filter(Boolean);
+    console.log(photoUrls)
+    await printMagnetsPdf(photoUrls, {
+      orderId: '10010',
+      website: 'www.yoursite.com',
+      autoPrint: true, // pon true si quieres abrir el diálogo de impresión automático
+    });
+  }
+
+  // carga cupón guardado
+  useEffect(() => {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    try {
+      const payload = JSON.parse(raw);
+      if (payload.coupon) setCoupon(payload.coupon);
+    } catch { }
+  }, []);
+
+  // persiste cupón cuando cambia
+  useEffect(() => {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    try {
+      const payload = JSON.parse(raw);
+      payload.coupon = coupon || null;
+      localStorage.setItem(LS_KEY, JSON.stringify(payload));
+    } catch { }
+  }, [coupon]);
+
+  // catálogo simple de cupones (ejemplos)
+  const COUPONS = {
+    DESC50: { type: 'flat', value: 50, label: '$50 de descuento' },
+    DESC10: { type: 'percent', value: 10, label: '10% de descuento' },
+    ENVIOFREE: { type: 'shipping', value: 1, label: 'Envío gratis' },
+  };
+
+  // costos
+  const SHIPPING = 89;                    // ajusta a tu tarifa
+  const subtotal = price;                 // el pack ya te da el precio
+  const discount = useMemo(() => {
+    if (!coupon) return 0;
+    if (coupon.type === 'flat') return coupon.value;
+    if (coupon.type === 'percent') return (subtotal * coupon.value) / 100;
+    if (coupon.type === 'shipping') return SHIPPING; // envío gratis
+    return 0;
+  }, [coupon, subtotal]);
+
+  const total = Math.max(0, subtotal + SHIPPING - discount);
+
+  function applyCoupon() {
+    setCouponError('');
+    const code = (couponInput || '').trim().toUpperCase();
+    if (!code) return;
+
+    const c = COUPONS[code];
+    if (!c) {
+      setCouponError('Código inválido');
+      return;
+    }
+    setCoupon({ code, ...c });
+    setCouponOpen(false);
+    setCouponInput('');
+  }
+
+  function removeCoupon() {
+    setCoupon(null);
+    setCouponError('');
+  }
 
   return (
     <section className="pc-wrapper">
@@ -285,10 +388,9 @@ export default function PreviewCheckout() {
           >
             {it.url ? (
               <>
-                <img src={it.url} alt={it.name || 'foto'} className="cover" />
+                <img src={it.url} alt={it.name || 'foto'} />
                 {/* sombreado fuera de la guía */}
                 <div className="pc-hole" aria-hidden />
-
               </>
             ) : (
               <div className="pc-missing">Sin vista previa</div>
@@ -327,33 +429,72 @@ export default function PreviewCheckout() {
             El área <em>fuera</em> de la guía envolverá los bordes del imán. Mantén lo importante dentro.
           </div>
         </div>
-
-        <div className="pc-count small">
-          Seleccionadas <strong>{selectedCount}/{required}</strong>
-        </div>
-
-        <div className="pc-total small">
-          Total estimado: <strong>${price.toFixed(2)}</strong>
-        </div>
       </aside>
 
-      {/* Footer móvil/tablet (informativo) */}
-      <div className="pc-footer-bar">
-        <div className="pc-footer-inner">
-          <div className="pc-footer-info">
-            <span className="pc-footer-title">Listo para imprimir</span>
-            <span className="pc-footer-sub"> Revisa el recorte antes de continuar</span>
-          </div>
+      <div className="pc-summary">
+        <div className="pc-row">
+          <span>Productos ({selectedCount})</span>
+          <span>${subtotal.toFixed(2)}</span>
         </div>
-      </div>
 
-      <button
-        className="pc-add-to-cart"
-        onClick={handleAddToCart}
-        disabled={!allGood}
-      >
-        Pagar
-      </button>
+        <div className="pc-row">
+          <span>Envío</span>
+          <span>${SHIPPING.toFixed(2)}</span>
+        </div>
+
+        {!coupon && !couponOpen && (
+          <button
+            className="pc-link"
+            type="button"
+            onClick={() => setCouponOpen(true)}
+          >
+            Ingresar código de cupón
+          </button>
+        )}
+
+        {!coupon && couponOpen && (
+          <div className="pc-coupon-line">
+            <input
+              className="pc-coupon-input"
+              placeholder="CUPÓN DE DESCUENTO"
+              value={couponInput}
+              onChange={(e) => setCouponInput(e.target.value)}
+            />
+            <button className="pc-btn primary pc-coupon-btn" type="button" onClick={applyCoupon}>
+              Aplicar
+            </button>
+          </div>
+        )}
+
+        {couponError && <div className="pc-error">{couponError}</div>}
+
+        {coupon && (
+          <div className="pc-row">
+            <span className="small">
+              Cupón <strong>{coupon.code}</strong> – {coupon.label}{' '}
+              <br />
+              <button className="pc-link small" onClick={removeCoupon} type="button">
+                Quitar
+              </button>
+            </span>
+            <span>- ${discount.toFixed(2)}</span>
+          </div>
+        )}
+
+        <div className="pc-row pc-total-line">
+          <span>Total</span>
+          <span className="pc-total-amount">${total.toFixed(2)}</span>
+        </div>
+
+        <button
+          className="pc-pay-btn"
+          // onClick={handlePay}
+          onClick={handleDownloadPdf}
+          disabled={!allGood}
+        >
+          Pagar
+        </button>
+      </div>
 
       {/* Overlay del editor (react-easy-crop) */}
       {editorOpen && editingIdx !== null && items[editingIdx]?.url && (
